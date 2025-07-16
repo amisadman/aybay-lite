@@ -7,6 +7,8 @@ import com.amisadman.aybaylite.Repo.DatabaseHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -46,6 +48,25 @@ public class DashboardManagerTest {
 
         // Assert
         assertEquals(expectedData, result);
+        verify(mockDbHelper).getStatement();
+    }
+    @ParameterizedTest
+    @CsvSource({
+            "key1,value1",
+            "date,2023-01-01",
+            "description,Café & Restaurant"
+    })
+    public void testLoadDataFromDatabaseWithCsv(String key, String value) {
+        // Arrange
+        ArrayList<HashMap<String, String>> expectedData = new ArrayList<>();
+        HashMap<String, String> testItem = new HashMap<>();
+        testItem.put(key, value);
+        expectedData.add(testItem);
+
+        when(mockDbHelper.getStatement()).thenReturn(expectedData);
+
+        // Act and Assert
+        assertEquals(expectedData, dashboardManager.loadDataFromDatabase());
         verify(mockDbHelper).getStatement();
     }
 
