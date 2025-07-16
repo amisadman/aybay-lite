@@ -1,22 +1,36 @@
 [versions]
-agp = "8.10.1"
-junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
+agp = "8.10.1"  # Android Gradle Plugin
 appcompat = "1.7.1"
 material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
+junitJupiter = "5.10.2"  # Updated to latest stable JUnit 5 (as of 2024)
+extJunit = "1.2.0"      # AndroidX Test (for instrumentation)
+espressoCore = "3.6.1"  # Espresso (for UI tests)
+mockito = "5.11.0"  # Latest stable version (as of 2024)
 
 [libraries]
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+# AndroidX libraries
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
+# JUnit 5 (Unit tests)
+junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junitJupiter" }
+junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junitJupiter" }
+junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitJupiter" }  # Optional (for parameterized tests)
+
+# AndroidX Test (Instrumentation tests)
+ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "extJunit" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+
+# Mockito JUnit 5 extension (required for @ExtendWith)
+mockito-junit-jupiter = { group = "org.mockito", name = "mockito-junit-jupiter", version.ref = "mockito" }
+
+# Mockito Inline (only needed if mocking final classes)
+mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockito" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-
