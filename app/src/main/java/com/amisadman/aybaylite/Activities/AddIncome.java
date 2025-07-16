@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.amisadman.aybaylite.Controllers.AddIncomeHelper;
 import com.amisadman.aybaylite.R;
 import com.amisadman.aybaylite.Repo.DatabaseHelper;
 
@@ -24,7 +25,7 @@ public class AddIncome extends AppCompatActivity {
     EditText edAmount, edReason;
     Button button;
     ImageButton btnBack;
-    DatabaseHelper dbHelper;
+    AddIncomeHelper helper;
     LottieAnimationView animationAdd, animationUpdate;
     String editId = null;
     boolean isEdit = false;
@@ -40,7 +41,7 @@ public class AddIncome extends AppCompatActivity {
         button = findViewById(R.id.button);
         animationAdd = findViewById(R.id.animationAdd);
         animationUpdate = findViewById(R.id.animationUpdate);
-        dbHelper = new DatabaseHelper(this);
+        helper = new AddIncomeHelper(this);
         Intent intent = getIntent();
         /*Edit Data
         Edit button theke ekhane ashe.
@@ -82,14 +83,14 @@ public class AddIncome extends AppCompatActivity {
             if (isEdit)
             {
                 //Update korbe
-                dbHelper.updateExpense(editId, amount, reason);
+                helper.updateData(editId, amount, reason);
                 finish();
                 Toast.makeText(AddIncome.this, "Entry Updated!", Toast.LENGTH_SHORT).show();
             }
             else
             {
                 //Notun add
-                dbHelper.addExpense(amount, reason);
+                helper.addData(amount, reason);
                 Toast.makeText(AddIncome.this, "Expense Added!", Toast.LENGTH_SHORT).show();
                 finish();
             }
