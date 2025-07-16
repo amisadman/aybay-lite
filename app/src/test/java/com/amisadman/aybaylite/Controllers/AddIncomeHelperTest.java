@@ -1,0 +1,137 @@
+package com.amisadman.aybaylite.Controllers;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+
+import android.content.Context;
+
+import com.amisadman.aybaylite.Repo.DatabaseHelper;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.mockito.Mockito.verify;
+
+import java.util.stream.Stream;
+
+@ExtendWith(MockitoExtension.class)
+public class AddIncomeHelperTest {
+
+    @Mock
+    private DatabaseHelper mockDbHelper;
+
+    @Mock
+    private Context mockContext;
+
+    private AddIncomeHelper addIncomeHelper;
+
+    @BeforeEach
+    void setUp() {
+        addIncomeHelper = new AddIncomeHelper(mockDbHelper);
+    }
+
+    @Test
+    void testConstructorWithContext() {
+        new AddIncomeHelper(mockContext);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "1, 100.50, Salary bonus",
+            "2, 250.75, Freelance work",
+            "3, 99.99, Sold item"
+    })
+    void testUpdateData(String id, double amount, String reason) {
+        // Act
+        addIncomeHelper.updateData(id, amount, reason);
+
+        // Assert
+        verify(mockDbHelper).updateExpense(id, amount, reason);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "500.00, Monthly salary",
+            "150.50, Consulting fee",
+            "75.25, Gift received"
+    })
+    void testAddData(double amount, String reason) {
+        // Act
+        addIncomeHelper.addData(amount, reason);
+
+        // Assert
+        verify(mockDbHelper).addIncome(amount, reason);
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {0.01, 1.00, 1000.00, 999999.99})
+    void testAddDataWithVariousAmounts(double amount) {
+        // Act
+        addIncomeHelper.addData(amount, "Test reason");
+
+        // Assert
+        verify(mockDbHelper).addIncome(amount, "Test reason");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", " ", "A", "Long reason with spaces and special chars: !@#$%^&*()"})
+    void testAddDataWithVariousReasons(String reason) {
+        // Act
+        addIncomeHelper.addData(100.00, reason);
+
+        // Assert
+        verify(mockDbHelper).addIncome(100.00, reason);
+    }
+    @ParameterizedTest
+    @MethodSource("provideUpdateDataTestCases")
+    void testUpdateDataWithVariousCases(String id, double amount, String reason) {
+        addIncomeHelper.updateData(id, amount, reason);
+        verify(mockDbHelper).updateExpense(id, amount, reason);
+    }
+
+    private static Stream<Arguments> provideUpdateDataTestCases() {
+        return Stream.of(
+                // Normal cases
+                Arguments.of("1", 100.50, "Salary bonus"),
+                Arguments.of("inc_2", 250.75, "Freelance work"),
+
+                // Edge cases
+                Arguments.of("id-with-dash", 0.01, "Minimum amount"),
+                Arguments.of("ID_WITH_UNDERSCORE", 999999.99, "Maximum reasonable amount"),
+                Arguments.of("special!@#", 500.00, "Special chars in ID"),
+                Arguments.of("empty_reason", 75.25, ""),
+                Arguments.of("long_id_1234567890", 300.00, "Very long reason text that might exceed normal limits " +
+                        "and test how the system handles lengthy input strings for the reason field")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideAddDataTestCases")
+    void testAddDataWithExtraParameter(double amount, String reason, String description) {
+        addIncomeHelper.addData(amount, reason);
+        verify(mockDbHelper).addIncome(amount, reason);
+    }
+
+    private static Stream<Arguments> provideAddDataTestCases() {
+        return Stream.of(
+
+                Arguments.of(2000.00, "Monthly salary", "Regular monthly income"),
+                Arguments.of(150.50, "Consulting fee", "One-time professional service"),
+
+
+                Arguments.of(0.01, "Rounding adjustment", "Smallest possible amount"),
+                Arguments.of(1_000_000.00, "Annual bonus", "Large amount verification"),
+                Arguments.of(500.00, "Gift ", "Unicode characters in reason"),
+                Arguments.of(75.25, "A", "Shortest possible reason"),
+                Arguments.of(300.00, "Refund for cancelled service in Q1 2023", "Typical business case"),
+                Arguments.of(420.69, "Miscellaneous", "Decimal precision check")
+        );
+    }
+}
