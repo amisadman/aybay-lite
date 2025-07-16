@@ -1,19 +1,402 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
+    android:background="@color/white"
+    android:id="@+id/main_activity">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="5dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- First TextView (Welcome back,) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome back, "
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginEnd="2dp" />
+
+            <!-- Second TextView (Username, bold) -->
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User"
+                android:textSize="20sp"
+                android:textColor="@color/brown"
+                android:textStyle="bold" />
+
+            <!-- Spacer to push ImageButton to the right -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Logout Button (ImageButton) -->
+            <ImageButton
+                android:id="@+id/logout"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_logout"
+                android:contentDescription="Logout"
+                android:layout_gravity="bottom"
+                android:padding="2dp"
+                android:clickable="true"
+                android:focusable="true"/>
+        </LinearLayout>
+
+
+        <!-- Balance Section -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+        <LinearLayout
+            android:id="@+id/balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start"
+            android:padding="10dp"
+            android:background="@android:color/white">
+            <LinearLayout
+                android:layout_height="100dp"
+                android:layout_width="100dp"
+                android:background="@drawable/circle_colored">
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottieAnimation"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:lottie_rawRes="@raw/balance"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <TextView
+                    android:id="@+id/balancetxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Balance"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvFinalBalance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="৳ 0.00"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/green" />
+            </LinearLayout>
+        </LinearLayout>
+        <!-- Buttons for Adding Income & Expense -->
+        <LinearLayout
+            android:id="@+id/add_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <LinearLayout
+                android:id="@+id/btnAddIncome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/button_background"
+                android:background="@drawable/ripple_rounded_button"
+                android:padding="6dp">
+                <ImageButton
+                    android:id="@+id/btnAddIncome_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/add_income"
+                    android:contentDescription="Add Income"
+                    android:clickable="false"
+                    android:focusable="false"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Income"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:layout_marginStart="2dp"/>
+            </LinearLayout>
+            <View
+                android:layout_width="5dp"
+                android:layout_height="match_parent" />
+            <LinearLayout
+                android:id="@+id/btnAddExpense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/button_background"
+                android:background="@drawable/ripple_rounded_button"
+                android:padding="6dp">
+                <ImageButton
+                    android:id="@+id/btnAddExpense_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/add_expense"
+                    android:contentDescription="Add Expense"
+                    android:clickable="false"
+                    android:focusable="false"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Expense"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:layout_marginStart="2dp"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="5dp" />
+        <!-- Total Income & Expense -->
+        <LinearLayout
+            android:id="@+id/showTotalLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:orientation="vertical"
+            android:weightSum="2">
+            <!-- First Line: Income, Expense, Savings -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10">
+                <!-- Total Income -->
+                <RelativeLayout
+                    android:id="@+id/totalIncomeLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5">
+                    <TextView
+                        android:id="@+id/tvTotalIncomeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Income"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_alignParentStart="true"
+                        />
+                    <TextView
+                        android:id="@+id/tvTotalIncome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="৳ 0.00"
+                        android:textSize="18sp"
+                        android:textColor="@color/green"
+                        android:layout_below="@id/tvTotalIncomeLabel"
+                        android:layout_alignParentStart="true"
+                        />
+                </RelativeLayout>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/darker_gray"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp" />
+                <!-- Total Expense -->
+                <RelativeLayout
+                    android:id="@+id/totalExpenseLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5">
+                    <TextView
+                        android:id="@+id/tvTotalExpenseLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Expense"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_alignParentStart="true"
+                        />
+                    <TextView
+                        android:id="@+id/tvTotalExpense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="৳ 0.00"
+                        android:textSize="18sp"
+                        android:textColor="#F44336"
+                        android:layout_below="@id/tvTotalExpenseLabel"
+                        android:layout_alignParentStart="true"
+                        />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            />
+        <!-- Buttons for Showing Data -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:gravity="center">
+            <!-- first row: 4 buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:gravity="center">
+                <LinearLayout
+                    android:id="@+id/btnShowAllDataIncome"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="@drawable/button_background"
+                    android:padding="6dp"
+
+                    android:background="@drawable/ripple_rounded_button">
+                    <ImageView
+
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/show_income"
+                        android:contentDescription="Show Income" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Manage Income"
+                        android:textSize="12sp"
+                        android:textColor="@android:color/black"
+                        android:gravity="center"
+                        android:layout_marginTop="2dp"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent" />
+                <LinearLayout
+                    android:id="@+id/btnShowAllDataExpense"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="@drawable/button_background"
+                    android:padding="6dp"
+                    android:background="@drawable/ripple_rounded_button">
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/show_expense"
+                        android:contentDescription="Show Expense" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Manage Expense"
+                        android:textSize="12sp"
+                        android:textColor="@android:color/black"
+                        android:gravity="center"
+                        android:layout_marginTop="2dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- TextView Statement -->
+        <TextView
+            android:id="@+id/tvStatement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transaction History: "
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/white1" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_main"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:nestedScrollingEnabled="false"
+            android:layout_weight="1" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp">
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/noDataAnimation_main"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:lottie_rawRes="@raw/no_data_animation"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:visibility="visible" />
+            <TextView
+                android:id="@+id/tvNoDataMessage_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Data Found"
+                android:textSize="18sp"
+                android:textColor="#757575"
+                android:layout_below="@id/noDataAnimation_main"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="14dp"
+                android:visibility="visible" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

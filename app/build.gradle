@@ -46,6 +46,7 @@ dependencies {
     implementation libs.activity
     implementation libs.constraintlayout
 
+
     // JUnit 5 (Unit tests)
     testImplementation libs.junit.jupiter.api
     testRuntimeOnly libs.junit.jupiter.engine
@@ -56,4 +57,7 @@ dependencies {
     androidTestImplementation libs.espresso.core
     testImplementation libs.mockito.core
     testImplementation libs.mockito.junit.jupiter
+
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.airbnb.android:lottie:6.6.6'
 }

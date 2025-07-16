@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/splashscreen_activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="120dp"
+    android:background="@color/white"
+    tools:context=".SplashScreen">
+    <!-- Lottie Animation -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/splashAnimation"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        app:lottie_rawRes="@raw/splash_screen"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"/>
+    <!-- App Name in Bangla -->
+    <ImageView
+        android:id="@+id/appLogo"
+        android:layout_width="600px"
+        android:layout_height="wrap_content"
+        android:src="@drawable/app_name"
+        android:layout_below="@id/splashAnimation"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"/>
+    <!-- Tagline: Plan | Track | Manage -->
+    <TextView
+        android:id="@+id/tagline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Plan | Track | Manage"
+        android:textSize="15sp"
+        android:textColor="@color/brown"
+        android:textStyle="italic"
+        android:gravity="center"
+        android:layout_below="@id/appLogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"/>
+
+</RelativeLayout>

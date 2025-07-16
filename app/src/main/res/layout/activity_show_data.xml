@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/showdata_activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".ShowData">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:padding="16dp">
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="3dp"
+            android:padding="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="Back"
+            android:focusable="true"
+            android:foregroundGravity="left"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back" />
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Statement"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="@color/brown" />
+        <Button
+            android:id="@+id/btnAddOther"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:icon="@drawable/baseline_add_24"
+            app:iconTint="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTitle"
+            android:text="Add Data"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            android:visibility="gone"
+            app:cornerRadius="20dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnAddOther"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvTotal_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total: "
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/tvBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.00"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnAddOther"
+            android:layout_marginTop="20dp"
+            android:visibility="visible"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/noDataAnimation"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            app:lottie_rawRes="@raw/no_data_animation"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/tvNoDataMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Data Found"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/noDataAnimation"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="#757575"
+            android:visibility="gone"/>
+    </RelativeLayout>
+</RelativeLayout>
