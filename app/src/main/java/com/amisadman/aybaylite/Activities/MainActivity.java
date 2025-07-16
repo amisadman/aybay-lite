@@ -71,13 +71,12 @@ public class MainActivity extends AppCompatActivity
 
         ImageButton btnLogout = findViewById(R.id.logout);
 
-//        btnAddExpense.setOnClickListener(v -> {
-//
-//            Intent intent1 = new Intent(MainActivity.this, AddData.class);
-//            intent1.putExtra("TYPE", "EXPENSE");
-//            startActivity(intent1);
-//        });
-//
+        btnAddExpense.setOnClickListener(v -> {
+
+            Intent intent1 = new Intent(MainActivity.this, AddIncome.class);
+            startActivity(intent1);
+        });
+
 //        btnAddIncome.setOnClickListener(v -> {
 //            Intent intent1 = new Intent(MainActivity.this, AddData.class);
 //            intent1.putExtra("TYPE", "INCOME");

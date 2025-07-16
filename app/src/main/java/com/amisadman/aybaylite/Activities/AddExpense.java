@@ -16,16 +16,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.amisadman.aybaylite.Controllers.AddIncomeHelper;
+import com.amisadman.aybaylite.Controllers.AddExpenseHelper;
 import com.amisadman.aybaylite.R;
 import com.amisadman.aybaylite.Repo.DatabaseHelper;
 
-public class AddIncome extends AppCompatActivity {
+public class AddExpense extends AppCompatActivity {
     TextView tvTitle;
     EditText edAmount, edReason;
     Button button;
     ImageButton btnBack;
-    AddIncomeHelper helper;
+    AddExpenseHelper helper;
     LottieAnimationView animationAdd, animationUpdate;
     String editId = null;
     boolean isEdit = false;
@@ -41,7 +41,7 @@ public class AddIncome extends AppCompatActivity {
         button = findViewById(R.id.button);
         animationAdd = findViewById(R.id.animationAdd);
         animationUpdate = findViewById(R.id.animationUpdate);
-        helper = new AddIncomeHelper(this);
+        helper = new AddExpenseHelper(this);
         Intent intent = getIntent();
         /*Edit Data
         Edit button theke ekhane ashe.
@@ -52,7 +52,7 @@ public class AddIncome extends AppCompatActivity {
             editId = intent.getStringExtra("EDIT_ID");
             edAmount.setText(intent.getStringExtra("EDIT_AMOUNT"));
             edReason.setText(intent.getStringExtra("EDIT_REASON"));
-            tvTitle.setText("Edit Income");
+            tvTitle.setText("Edit Expense");
 
             animationUpdate.setVisibility(View.VISIBLE);
             animationAdd.setVisibility(View.GONE);
@@ -61,7 +61,7 @@ public class AddIncome extends AppCompatActivity {
         else
         {
             // Add Data
-            tvTitle.setText("Add Income");
+            tvTitle.setText("Add Expense");
 
             animationUpdate.setVisibility(View.GONE);
             animationAdd.setVisibility(View.VISIBLE);
@@ -75,7 +75,7 @@ public class AddIncome extends AppCompatActivity {
             // Input validation
             if (sAmount.isEmpty() || reason.isEmpty())
             {
-                Toast.makeText(AddIncome.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddExpense.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
             double amount = Double.parseDouble(sAmount);
@@ -85,13 +85,13 @@ public class AddIncome extends AppCompatActivity {
                 //Update korbe
                 helper.updateData(editId, amount, reason);
                 finish();
-                Toast.makeText(AddIncome.this, "Entry Updated!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddExpense.this, "Entry Updated!", Toast.LENGTH_SHORT).show();
             }
             else
             {
                 //Notun add
                 helper.addData(amount, reason);
-                Toast.makeText(AddIncome.this, "Expense Added!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddExpense.this, "Expense Added!", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
