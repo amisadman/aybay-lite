@@ -201,21 +201,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     //====================================================================================
 
-    public Cursor getAllExpenses(){
+    public ArrayList<HashMap<String, String>> getAllExpenses(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from expense ORDER BY id DESC",null);
-        return cursor;
+        ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
+        arrayList.clear();
+        if (cursor != null && cursor.getCount() > 0)
+        {
+            while(cursor.moveToNext())
+            {
+                String type = cursor.getString(0);
+                double amount = cursor.getDouble(1);
+                String reason = cursor.getString(2);
+                long timeMillis = cursor.getLong(3);
+                String formattedTime = new java.text.SimpleDateFormat("dd-MM-yyyy HH:mm:ss", java.util.Locale.getDefault())
+                        .format(new java.util.Date(timeMillis));
+
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("type", type);
+                hashMap.put("amount", String.valueOf(amount));
+                hashMap.put("reason", reason);
+                hashMap.put("time", formattedTime);
+
+                arrayList.add(hashMap);
+            }
+            cursor.close();
+        }
+        return arrayList;
     }
 
-    public Cursor getAllIncome(){
+    public ArrayList<HashMap<String, String>> getAllIncome(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from income ORDER BY id DESC",null);
-        return cursor;
-    }
-    public Cursor getAllLoans(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from loan ORDER BY id DESC",null);
-        return cursor;
+        ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
+        arrayList.clear();
+        if (cursor != null && cursor.getCount() > 0)
+        {
+            while(cursor.moveToNext())
+            {
+                String type = cursor.getString(0);
+                double amount = cursor.getDouble(1);
+                String reason = cursor.getString(2);
+                long timeMillis = cursor.getLong(3);
+                String formattedTime = new java.text.SimpleDateFormat("dd-MM-yyyy HH:mm:ss", java.util.Locale.getDefault())
+                        .format(new java.util.Date(timeMillis));
+
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("type", type);
+                hashMap.put("amount", String.valueOf(amount));
+                hashMap.put("reason", reason);
+                hashMap.put("time", formattedTime);
+
+                arrayList.add(hashMap);
+            }
+            cursor.close();
+        }
+        return arrayList;
     }
     public Cursor getAllOwe(){
         SQLiteDatabase db = this.getReadableDatabase();

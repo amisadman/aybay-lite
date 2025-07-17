@@ -73,15 +73,14 @@ public class MainActivity extends AppCompatActivity
 
         btnAddExpense.setOnClickListener(v -> {
 
-            Intent intent1 = new Intent(MainActivity.this, AddIncome.class);
+            Intent intent1 = new Intent(MainActivity.this, AddExpense.class);
             startActivity(intent1);
         });
 
-//        btnAddIncome.setOnClickListener(v -> {
-//            Intent intent1 = new Intent(MainActivity.this, AddData.class);
-//            intent1.putExtra("TYPE", "INCOME");
-//            startActivity(intent1);
-//        });
+        btnAddIncome.setOnClickListener(v -> {
+            Intent intent1 = new Intent(MainActivity.this, AddIncome.class);
+            startActivity(intent1);
+        });
 //
 //        btnShowAllDataExpense.setOnClickListener(v -> {
 //            Intent intent1 = new Intent(MainActivity.this, ShowData.class);
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity
 //        int borderColor = Color.parseColor("#D3D3D3");  // Light Gray border color
 //        recyclerView_main.addItemDecoration(new BorderItemDecoration(borderWidth, borderColor));
 //        setupRecyclerView();
-//        updateUI();
+        updateUI();
 //    }
 
 
@@ -123,15 +122,15 @@ public class MainActivity extends AppCompatActivity
 //            noDataAnimation_main.setVisibility(View.VISIBLE);
 //            tvNoDataMessage_main.setVisibility(View.VISIBLE);
 //        }
-//    }
-//
-//    public void updateUI()
-//    {
-//        tvTotalIncome.setText("৳ " +manager.getTotalIncome());
-//        tvTotalExpense.setText("৳ " +manager.getTotalExpense() );
-//        double balance = Math.max(0, manager.getTotalIncome() - manager.getTotalExpense());
-//        tvFinalBalance.setText("৳ " + balance);
-//    }
+    }
+
+    public void updateUI()
+    {
+        tvTotalIncome.setText("৳ " +manager.getTotalIncome());
+        tvTotalExpense.setText("৳ " +manager.getTotalExpense() );
+        double balance = Math.max(0, manager.getTotalIncome() - manager.getTotalExpense());
+        tvFinalBalance.setText("৳ " + balance);
+    }
 //    public static class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 //
 //        public MyAdapter() {
@@ -173,25 +172,25 @@ public class MainActivity extends AppCompatActivity
 //                holder.tvAmount_main.setTextColor(Color.RED);
 //            }
 //        }
-//
+
 //        @Override
 //        public int getItemCount() {
 //            return arrayList.size();
 //        }
 //    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        arrayList = manager.loadDataFromDatabase();
-//        finish();
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        arrayList= manager.loadDataFromDatabase();
-//        setupRecyclerView();
-//        updateUI();
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //arrayList = manager.loadDataFromDatabase();
+        finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        arrayList= manager.loadDataFromDatabase();
+        //setupRecyclerView();
+        updateUI();
     }
 }

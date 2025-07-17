@@ -91,7 +91,7 @@ public class AddIncome extends AppCompatActivity {
             {
                 //Notun add
                 helper.addData(amount, reason);
-                Toast.makeText(AddIncome.this, "Expense Added!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddIncome.this, "Income Added!", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
