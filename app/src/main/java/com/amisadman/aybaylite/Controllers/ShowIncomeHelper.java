@@ -22,8 +22,9 @@ public class ShowIncomeHelper {
         arrayList = dbHelper.getAllIncome();
         return arrayList;
     }
-    public void deleteData(String id){
+    public boolean deleteData(String id){
         dbHelper.deleteIncome(id);
+        return true;
     }
 
 }

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.amisadman.aybaylite.Controllers.ShowExpenseHelper;
 import com.amisadman.aybaylite.Controllers.ShowIncomeHelper;
 import com.amisadman.aybaylite.R;
+import com.amisadman.aybaylite.Repo.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +34,7 @@ public class ShowExpense extends AppCompatActivity {
     ArrayList<HashMap<String, String>> arrayList;
     HashMap<String, String> hashMap;
     MyAdapter adapter;
+    DatabaseHelper dbhelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,25 +50,36 @@ public class ShowExpense extends AppCompatActivity {
         tvBalance = findViewById(R.id.tvBalance);
         tvTotal_show = findViewById(R.id.tvTotal_show);
 
-        showExpenseHelper = new ShowExpenseHelper(this);
-        tvTitle.setText("Income Statement");
+         dbhelper = new DatabaseHelper(this);
+        showExpenseHelper = new ShowExpenseHelper(dbhelper);
+
+        tvTitle.setText("Expense Statement");
         btnBack.setOnClickListener(v -> onBackPressed());
 
-        arrayList = showExpenseHelper.loadIncome();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new MyAdapter();
+        recyclerView.setAdapter(adapter);
 
-        if(!arrayList.isEmpty()){
+        refreshData();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshData(); // Reload data when returning from edit
+    }
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            adapter = new MyAdapter();
-            recyclerView.setAdapter(adapter);
+    private void refreshData() {
+        arrayList = showExpenseHelper.loadExpense();
+        adapter.notifyDataSetChanged();
 
-            recyclerView.setVisibility(View.VISIBLE);
-            noDataAnimation.setVisibility(View.GONE);
-            tvNoDataMessage.setVisibility(View.GONE);
-        } else {
+        if (arrayList.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
             noDataAnimation.setVisibility(View.VISIBLE);
             tvNoDataMessage.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            noDataAnimation.setVisibility(View.GONE);
+            tvNoDataMessage.setVisibility(View.GONE);
         }
     }
 
@@ -73,7 +87,7 @@ public class ShowExpense extends AppCompatActivity {
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View view = inflater.inflate(R.layout.item_income, parent, false);
+            View view = inflater.inflate(R.layout.item_expense, parent, false);
             return new MyViewHolder(view);
         }
 
@@ -99,9 +113,22 @@ public class ShowExpense extends AppCompatActivity {
             holder.tvTime.setText(formattedTime);
 
             holder.btnDeleteItem.setOnClickListener(v -> {
-                showExpenseHelper.deleteData(id);
-                arrayList = showExpenseHelper.loadIncome();
-                notifyDataSetChanged();
+                boolean isDeleted = showExpenseHelper.deleteData(id);
+                dbhelper.deleteExpense(id);
+                if (isDeleted) {
+                    arrayList.remove(position); // Remove the item from the current list
+                    notifyItemRemoved(position); // Better than notifyDataSetChanged()
+                    notifyItemRangeChanged(position, arrayList.size()); // Update positions
+
+                    // If list is empty, show "No Data" message
+                    if (arrayList.isEmpty()) {
+                        recyclerView.setVisibility(View.GONE);
+                        noDataAnimation.setVisibility(View.VISIBLE);
+                        tvNoDataMessage.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    Toast.makeText(v.getContext(), "Failed to delete", Toast.LENGTH_SHORT).show();
+                }
             });
 
             holder.btnEditItem.setOnClickListener(v -> {

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,21 +51,30 @@ public class ShowIncome extends AppCompatActivity {
         tvTitle.setText("Income Statement");
         btnBack.setOnClickListener(v -> onBackPressed());
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new MyAdapter();
+        recyclerView.setAdapter(adapter);
+
+        refreshData();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshData(); // Reload data when returning from edit
+    }
+
+    private void refreshData() {
         arrayList = showIncomeHelper.loadIncome();
+        adapter.notifyDataSetChanged();
 
-        if(!arrayList.isEmpty()){
-
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            adapter = new MyAdapter();
-            recyclerView.setAdapter(adapter);
-
-            recyclerView.setVisibility(View.VISIBLE);
-            noDataAnimation.setVisibility(View.GONE);
-            tvNoDataMessage.setVisibility(View.GONE);
-        } else {
+        if (arrayList.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
             noDataAnimation.setVisibility(View.VISIBLE);
             tvNoDataMessage.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            noDataAnimation.setVisibility(View.GONE);
+            tvNoDataMessage.setVisibility(View.GONE);
         }
     }
 
@@ -98,9 +108,21 @@ public class ShowIncome extends AppCompatActivity {
             holder.tvTime.setText(formattedTime);
 
             holder.btnDeleteItem.setOnClickListener(v -> {
-                showIncomeHelper.deleteData(id);
-                arrayList = showIncomeHelper.loadIncome();
-                notifyDataSetChanged();
+                boolean isDeleted = showIncomeHelper.deleteData(id);
+                if (isDeleted) {
+                    arrayList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, arrayList.size()); // Update positions
+
+                    // If list is empty, show "No Data" message
+                    if (arrayList.isEmpty()) {
+                        recyclerView.setVisibility(View.GONE);
+                        noDataAnimation.setVisibility(View.VISIBLE);
+                        tvNoDataMessage.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    Toast.makeText(v.getContext(), "Failed to delete", Toast.LENGTH_SHORT).show();
+                }
             });
 
             holder.btnEditItem.setOnClickListener(v -> {

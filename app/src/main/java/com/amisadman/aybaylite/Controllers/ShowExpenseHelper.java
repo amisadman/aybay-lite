@@ -16,14 +16,15 @@ public class ShowExpenseHelper {
     public ShowExpenseHelper(Context context) {
         this(new DatabaseHelper(context));
     }
-    public ArrayList<HashMap<String, String>> loadIncome(){
+    public ArrayList<HashMap<String, String>> loadExpense(){
         ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
         arrayList.clear(); // Clear previous data
         arrayList = dbHelper.getAllExpenses();
         return arrayList;
     }
-    public void deleteData(String id){
+    public boolean deleteData(String id){
         dbHelper.deleteExpense(id);
+        return true;
     }
 
 }
