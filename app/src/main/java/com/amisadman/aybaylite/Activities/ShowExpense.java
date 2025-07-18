@@ -2,6 +2,7 @@ package com.amisadman.aybaylite.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,8 +114,8 @@ public class ShowExpense extends AppCompatActivity {
             holder.tvTime.setText(formattedTime);
 
             holder.btnDeleteItem.setOnClickListener(v -> {
+                Log.d("ShowExpense","id is " + id);
                 boolean isDeleted = showExpenseHelper.deleteData(id);
-                dbhelper.deleteExpense(id);
                 if (isDeleted) {
                     arrayList.remove(position); // Remove the item from the current list
                     notifyItemRemoved(position); // Better than notifyDataSetChanged()
@@ -132,7 +133,7 @@ public class ShowExpense extends AppCompatActivity {
             });
 
             holder.btnEditItem.setOnClickListener(v -> {
-                Intent intent = new Intent(v.getContext(), AddIncome.class);
+                Intent intent = new Intent(v.getContext(), AddExpense.class);
                 intent.putExtra("EDIT_ID", id);
                 intent.putExtra("EDIT_AMOUNT", String.valueOf(formattedAmount));
                 intent.putExtra("EDIT_REASON", reason);
