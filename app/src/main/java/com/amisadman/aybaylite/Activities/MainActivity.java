@@ -87,12 +87,12 @@ public class MainActivity extends AppCompatActivity
 //            intent1.putExtra("TYPE", "EXPENSE");
 //            startActivity(intent1);
 //        });
-//
-//        btnShowAllDataIncome.setOnClickListener(v -> {
-//            Intent intent1 = new Intent(MainActivity.this, ShowData.class);
-//            intent1.putExtra("TYPE", "INCOME");
-//            startActivity(intent1);
-//        });
+
+        btnShowAllDataIncome.setOnClickListener(v -> {
+            Intent intent1 = new Intent(MainActivity.this, ShowIncome.class);
+            intent1.putExtra("TYPE", "INCOME");
+            startActivity(intent1);
+        });
 //
 //        arrayList = manager.loadDataFromDatabase();
 //        // Add border to each item
