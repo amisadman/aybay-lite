@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.amisadman.aybaylite.Controllers.ShowIncomeHelper;
 import com.amisadman.aybaylite.R;
+import com.amisadman.aybaylite.Repo.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ public class ShowIncome extends AppCompatActivity {
     ArrayList<HashMap<String, String>> arrayList;
     HashMap<String, String> hashMap;
     MyAdapter adapter;
+    DatabaseHelper dbhelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +48,9 @@ public class ShowIncome extends AppCompatActivity {
         btnAddOther = findViewById(R.id.btnAddOther);
         tvBalance = findViewById(R.id.tvBalance);
         tvTotal_show = findViewById(R.id.tvTotal_show);
+        dbhelper = new DatabaseHelper(this);
 
-        showIncomeHelper = new ShowIncomeHelper(this);
+        showIncomeHelper = new ShowIncomeHelper(dbhelper);
         tvTitle.setText("Income Statement");
         btnBack.setOnClickListener(v -> onBackPressed());
 

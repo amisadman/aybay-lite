@@ -1,6 +1,7 @@
 package com.amisadman.aybaylite.Controllers;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.amisadman.aybaylite.Repo.DatabaseHelper;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ShowExpenseHelper {
-    private final DatabaseHelper dbHelper;
+    private DatabaseHelper dbHelper;
     public ShowExpenseHelper(DatabaseHelper dbHelper) {
         this.dbHelper = dbHelper;
     }
@@ -22,9 +23,14 @@ public class ShowExpenseHelper {
         arrayList = dbHelper.getAllExpenses();
         return arrayList;
     }
-    public boolean deleteData(String id){
-        dbHelper.deleteExpense(id);
-        return true;
+    public boolean deleteData(String id) {
+        try {
+            int rowsDeleted = dbHelper.deleteExpense(id);
+            return rowsDeleted > 0;
+        } catch (Exception e) {
+            Log.e("ShowExpenseHelper", "Delete failed for ID: " + id, e);
+            return false;
+        }
     }
 
 }

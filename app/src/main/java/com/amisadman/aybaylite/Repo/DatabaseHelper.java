@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -210,7 +211,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         {
             while(cursor.moveToNext())
             {
-                String type = cursor.getString(0);
+                String id = cursor.getString(0);
                 double amount = cursor.getDouble(1);
                 String reason = cursor.getString(2);
                 long timeMillis = cursor.getLong(3);
@@ -218,7 +219,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         .format(new java.util.Date(timeMillis));
 
                 HashMap<String, String> hashMap = new HashMap<>();
-                hashMap.put("type", type);
+                hashMap.put("id",id );
                 hashMap.put("amount", String.valueOf(amount));
                 hashMap.put("reason", reason);
                 hashMap.put("time", formattedTime);
@@ -239,7 +240,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         {
             while(cursor.moveToNext())
             {
-                String type = cursor.getString(0);
+                String id = cursor.getString(0);
                 double amount = cursor.getDouble(1);
                 String reason = cursor.getString(2);
                 long timeMillis = cursor.getLong(3);
@@ -247,7 +248,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         .format(new java.util.Date(timeMillis));
 
                 HashMap<String, String> hashMap = new HashMap<>();
-                hashMap.put("type", type);
+                hashMap.put("id", id);
                 hashMap.put("amount", String.valueOf(amount));
                 hashMap.put("reason", reason);
                 hashMap.put("time", formattedTime);
@@ -281,10 +282,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void deleteExpense(String id){
-
+    public int deleteExpense(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from expense where id like "+id);
+        try {
+            // Use parameterized query with WHERE id = ?
+            int rowsAffected = db.delete(
+                    "expense",       // Table name
+                    "id = ?",        // WHERE clause
+                    new String[]{id} // WHERE value
+            );
+
+            Log.d("Database", "Deleted " + rowsAffected + " rows with id: " + id);
+            return rowsAffected;
+        } catch (Exception e) {
+            Log.e("Database", "Delete failed", e);
+            return 0;
+        } finally {
+            db.close();
+        }
     }
     public void deleteIncome(String id){
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ShowIncomeHelper {
-    private final DatabaseHelper dbHelper;
+    private DatabaseHelper dbHelper;
     public ShowIncomeHelper(DatabaseHelper dbHelper) {
         this.dbHelper = dbHelper;
     }
