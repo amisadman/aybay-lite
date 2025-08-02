@@ -1,8 +1,8 @@
 package com.amisadman.aybaylite.Controllers;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 
-import android.provider.ContactsContract;
+import android.content.Context;
 
 import com.amisadman.aybaylite.Repo.DatabaseHelper;
 
@@ -11,13 +11,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.Context;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class AddExpenseHelperTest
@@ -34,6 +31,9 @@ class AddExpenseHelperTest
 
     @AfterEach
     void tearDown() { }
+
+    @Test
+    void testConstructorWithContext() { new AddExpenseHelper(mockContext); }
 
     @ParameterizedTest
     @ValueSource(doubles = {0.01, 1.00, 1000.00, 999999.99})
