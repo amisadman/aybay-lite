@@ -56,9 +56,10 @@ You can install AyBay Lite from:
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="screenshots/add_expense.png" width="250"/> &nbsp;
-  <img src="screenshots/monthly_stats.png" width="250"/> &nbsp;
-  <img src="screenshots/budget_tracking.png" width="250"/>
+  <img src="ExternalResources/Screenshot_20250804_012257_AybayLite.jpg" width="200"/> &nbsp;
+  <img src="ExternalResources/Screenshot_20250804_012311_AybayLite.jpg" width="200"/> &nbsp;
+  <img src="ExternalResources/Screenshot_20250804_012336_AybayLite.jpg" width="200"/> &nbsp;
+  <img src="ExternalResources/Screenshot_20250804_012344_AybayLite.jpg" width="200"/>
 </p>
 
 ---
