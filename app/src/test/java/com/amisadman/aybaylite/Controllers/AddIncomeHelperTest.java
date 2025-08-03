@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -184,4 +185,15 @@ public class AddIncomeHelperTest {
     }
 
     //===============================================================================================
+    //Random generated data
+    @ParameterizedTest
+    @CsvFileSource(resources = "/combined_test_data.csv", numLinesToSkip = 1)
+    void testAddData_WithCsv(double amount, String reason, String rangeType) {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n",
+                amount, reason, rangeType);
+
+        addIncomeHelper.addData(amount, reason);
+        verify(mockDbHelper).addIncome(amount, reason);
+    }
+
 }
