@@ -18,10 +18,7 @@ public class AddIncomeHelper {
     public void updateData(String id, double amount, String reason){
         if(amount >= minimum && amount <= maximum) dbHelper.updateIncome(id, amount, reason);
         else{
-            throw new IllegalArgumentException(
-                    String.format("Amount %.2f is outside valid range [%.2f, %.2f]",
-                            amount, minimum, maximum)
-            );
+            throw new IllegalArgumentException("Amount is outside valid range");
         }
 
 
@@ -29,10 +26,7 @@ public class AddIncomeHelper {
     public void addData(double amount,String reason){
         if(amount >= minimum && amount <= maximum) dbHelper.addIncome(amount, reason);
         else{
-            throw new IllegalArgumentException(
-                    String.format("Amount %.2f is outside valid range [%.2f, %.2f]",
-                            amount, minimum, maximum)
-            );
+            throw new IllegalArgumentException("Amount is outside valid range");
         }
 
 
