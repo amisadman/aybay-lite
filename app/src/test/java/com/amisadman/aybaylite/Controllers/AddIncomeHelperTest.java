@@ -139,25 +139,7 @@ public class AddIncomeHelperTest {
     }
     //===============================================================================================
 
-    @ParameterizedTest
-    @MethodSource("amountTestCases")
-    void testAddDataWithBoundaryValues(double amount, boolean shouldSucceed) {
-        String reason = "Test reason";
-
-        if (shouldSucceed) {
-            // Test valid cases
-            addIncomeHelper.addData(amount, reason);
-            verify(mockDbHelper).addIncome(amount, reason);
-        } else {
-            // Test invalid cases
-            IllegalArgumentException exception = assertThrows(
-                    IllegalArgumentException.class,
-                    () -> addIncomeHelper.addData(amount, reason)
-            );
-
-            assertTrue(exception.getMessage().contains("outside valid range"));
-        }
-    }
+    //Boundary value testing
 
     @ParameterizedTest
     @MethodSource("provideAmountTestCases")
@@ -173,7 +155,7 @@ public class AddIncomeHelperTest {
             IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                     () -> addIncomeHelper.addData(amount, reason));
 
-            assertTrue(ex.getMessage().contains("outside valid range"));
+            assertTrue(ex.getMessage().contains("Amount is outside valid range"));
             verify(mockDbHelper, never()).addIncome(anyDouble(), anyString());
         }
     }
