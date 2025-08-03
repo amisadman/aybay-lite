@@ -10,21 +10,21 @@ A powerful and lightweight Android application for tracking income, expenses, bu
 
 ---
 
-## ✨ Features
+## Features
 
-- 📊 Track income and expenses (Lite Version)
-- 🏦 Manage loans and debts (owe tracking)
-- 💰 Monitor savings and budgets
-- 🔍 Search and filter transactions by date or type
-- 🧠 Built-in AI chatbot for financial suggestions (Premium only)
-- ☁️ Backup and restore data from Google Drive or local storage
-- 📅 View daily, monthly, and yearly statistics
-- 🔒 Secure and offline-first with local SQLite storage
-- ⚙️ Simple, clean, and fast UI with dark/light mode
+- Track income and expenses (**Lite Version**)
+- Manage loans and debts (owe tracking)
+- Monitor savings and budgets
+- Search and filter transactions by date or type
+- Built-in AI chatbot for financial suggestions (Premium only)
+- Backup and restore data from Google Drive or local storage
+- View daily, monthly, and yearly statistics
+- Secure and offline-first with local SQLite storage
+- Simple, clean, and fast UI with dark/light mode
 
 ---
 
-## 📥 Installation
+## Installation
 
 You can install AyBay Lite from:
 
@@ -33,7 +33,7 @@ You can install AyBay Lite from:
 
 ---
 
-## 🧪 Architecture & Testing
+## Architecture & Testing
 
 - Follows an MVC-ish layered architecture
 - Controller classes handle logic (e.g., `AddExpenseHelper`, `DashboardManager`)
@@ -44,7 +44,7 @@ You can install AyBay Lite from:
 
 ---
 
-## 💻 Built With
+## Built With
 
 - Java (Android SDK)
 - XML for UI layouts
@@ -53,7 +53,7 @@ You can install AyBay Lite from:
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 <p align="center">
   <img src="ExternalResources/Screenshot_20250804_015223_AybayLite.jpg" width="200"/> &nbsp;
