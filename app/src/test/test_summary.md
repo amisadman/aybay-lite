@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/amisadman/aybay-lite/blob/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.webp" width="100" alt="AyBay Lite Icon" />
+  <img src="./ExternalResources/aybay-animation.gif"/>
 </p>
 
 <h1 align="center">AyBay Lite</h1>
