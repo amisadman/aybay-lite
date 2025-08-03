@@ -16,8 +16,13 @@ public class AddExpenseHelper {
         this(new DatabaseHelper(context));
     }
     public void updateData(String id, double amount, String reason){
-        dbHelper.updateExpense(id, amount, reason);
-
+        if(amount >= minimum && amount <= maximum)dbHelper.updateExpense(id, amount, reason);
+        else{
+            throw new IllegalArgumentException(
+                    String.format("Amount %.2f is outside valid range [%.2f, %.2f]",
+                            amount, minimum, maximum)
+            );
+        }
     }
     public void addData(double amount,String reason){
         if(amount >= minimum && amount <= maximum)dbHelper.addExpense(amount, reason);
