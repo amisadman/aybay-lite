@@ -114,7 +114,7 @@ public class AddIncomeHelperTest {
     }
     @ParameterizedTest
     @MethodSource("provideAddDataTestCases")
-    void testAddDataWithExtraParameter(double amount, String reason, String description) {
+    void testAddDataWithExtraParameter(double amount, String reason) {
         addIncomeHelper.addData(amount, reason);
         verify(mockDbHelper).addIncome(amount, reason);
     }
@@ -122,16 +122,16 @@ public class AddIncomeHelperTest {
     private static Stream<Arguments> provideAddDataTestCases() {
         return Stream.of(
 
-                Arguments.of(2000.00, "Monthly salary", "Regular monthly income"),
-                Arguments.of(150.50, "Consulting fee", "One-time professional service"),
+                Arguments.of(2000.00, "Monthly salary"),
+                Arguments.of(150.50, "Consulting fee"),
 
 
-                Arguments.of(0.01, "Rounding adjustment", "Smallest possible amount"),
-                Arguments.of(1_000_000.00, "Annual bonus", "Large amount verification"),
-                Arguments.of(500.00, "Gift ", "Unicode characters in reason"),
-                Arguments.of(75.25, "A", "Shortest possible reason"),
-                Arguments.of(300.00, "Refund for cancelled service in Q1 2023", "Typical business case"),
-                Arguments.of(420.69, "Miscellaneous", "Decimal precision check")
+                Arguments.of(0.01, "Rounding adjustment"),
+                Arguments.of(1_000_000.00, "Annual bonus"),
+                Arguments.of(500.00, "Gift "),
+                Arguments.of(75.25, "A"),
+                Arguments.of(300.00, "Refund for cancelled service in Q1 2023"),
+                Arguments.of(420.69, "Miscellaneous")
         );
     }
 }
