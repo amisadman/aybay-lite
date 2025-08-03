@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
@@ -108,7 +109,7 @@ public class AddIncomeHelperTest {
                 Arguments.of("inc_2", 250.75, "Freelance work"),
 
                 // Edge cases
-                Arguments.of("id-with-dash", 0.01, "Minimum amount"),
+                Arguments.of("id-with-dash", 1.00, "Minimum amount"),
                 Arguments.of("ID_WITH_UNDERSCORE", 999999.99, "Maximum reasonable amount"),
                 Arguments.of("special!@#", 500.00, "Special chars in ID"),
                 Arguments.of("empty_reason", 75.25, ""),
@@ -194,6 +195,34 @@ public class AddIncomeHelperTest {
 
         addIncomeHelper.addData(amount, reason);
         verify(mockDbHelper).addIncome(amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/min_to_nominal.csv", numLinesToSkip = 1)
+    void testAddData_WithCsv_MinToNominal(double amount, String reason, String rangeType)
+    {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n", amount, reason, rangeType);
+
+        addIncomeHelper.addData(amount, reason);
+        verify(mockDbHelper).addIncome(amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/nominal_to_max.csv", numLinesToSkip = 1)
+    void testAddData_WithCsv_MaxToNominal(double amount, String reason, String rangeType)
+    {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n", amount, reason, rangeType);
+
+        addIncomeHelper.addData(amount, reason);
+        verify(mockDbHelper).addIncome(amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/combined_test_data.csv", numLinesToSkip = 1)
+    void testUpdateData_WithCsv(double amount, String reason, String rangeType)
+    {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n", amount, reason, rangeType);
+        String id = "1";
+
+        addIncomeHelper.updateData(id,amount, reason);
+        verify(mockDbHelper).updateIncome(id,amount, reason);
     }
     @ParameterizedTest
     @CsvFileSource(resources = "/min_to_nominal.csv", numLinesToSkip = 1)

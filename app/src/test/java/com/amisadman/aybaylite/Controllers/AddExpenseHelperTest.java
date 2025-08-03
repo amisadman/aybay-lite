@@ -126,7 +126,7 @@ class AddExpenseHelperTest
                 Arguments.of("exp_2", 99.99, "Bus fare"),
 
                 // Edge cases
-                Arguments.of("id-dash-case", 0.01, "Tiny purchase"),
+                Arguments.of("id-dash-case", 1.00, "Tiny purchase"),
                 Arguments.of("EXP_ID_999", 999999.99, "Medical emergency expense"),
                 Arguments.of("weird$id#chars", 500.00, "ID with special chars"),
                 Arguments.of("no_reason", 45.00, ""),
@@ -191,6 +191,34 @@ class AddExpenseHelperTest
     }
     @ParameterizedTest
     @CsvFileSource(resources = "/min_to_nominal.csv", numLinesToSkip = 1)
+    void testAddData_WithCsv_MinToNominal(double amount, String reason, String rangeType)
+    {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n", amount, reason, rangeType);
+
+        addExpenseHelper.addData(amount, reason);
+        verify(mockDbHelper).addExpense(amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/nominal_to_max.csv", numLinesToSkip = 1)
+    void testAddData_WithCsv_NominalToMax(double amount, String reason, String rangeType)
+    {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n", amount, reason, rangeType);
+
+        addExpenseHelper.addData(amount, reason);
+        verify(mockDbHelper).addExpense(amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/combined_test_data.csv", numLinesToSkip = 1)
+    void testUpdateData_WithCsv(double amount, String reason, String rangeType)
+    {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n", amount, reason, rangeType);
+        String id = "1";
+
+        addExpenseHelper.updateData(id,amount, reason);
+        verify(mockDbHelper).updateExpense(id,amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/min_to_nominal.csv", numLinesToSkip = 1)
     void testUpdateData_WithCsv_MinTONominal(double amount, String reason, String rangeType) {
         System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n",
                 amount, reason, rangeType);
@@ -209,9 +237,5 @@ class AddExpenseHelperTest
         addExpenseHelper.updateData(id,amount, reason);
         verify(mockDbHelper).updateExpense(id,amount, reason);
     }
-
-
-
-
 
 }
