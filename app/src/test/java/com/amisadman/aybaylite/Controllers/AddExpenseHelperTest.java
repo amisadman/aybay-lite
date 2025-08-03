@@ -91,16 +91,16 @@ class AddExpenseHelperTest
     {
         return Stream.of(
                 // Normal cases
-                Arguments.of(950.00, "House rent", "Recurring monthly payment"),
-                Arguments.of(150.75, "Electricity bill", "Utility expense verification"),
+                Arguments.of(950.00, "House rent"),
+                Arguments.of(150.75, "Electricity bill"),
 
                 // Edge cases
-                Arguments.of(0.01, "Rounding fix", "Lowest boundary test"),
-                Arguments.of(1_000_000.00, "Big purchase", "Stress test for large expense"),
-                Arguments.of(300.00, "🍔 Lunch", "Emoji inclusion test"),
-                Arguments.of(55.55, "E", "Shortest non-empty reason"),
-                Arguments.of(275.00, "Refund for faulty product from online vendor", "Typical case of return processing"),
-                Arguments.of(69.42, "Misc", "Precision and formatting check")
+                Arguments.of(0.01, "Rounding fix"),
+                Arguments.of(1_000_000.00, "Big purchase"),
+                Arguments.of(300.00, "🍔 Lunch"),
+                Arguments.of(55.55, "E"),
+                Arguments.of(275.00, "Refund for faulty product from online vendor"),
+                Arguments.of(69.42, "Misc")
         );
     }
 
