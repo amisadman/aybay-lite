@@ -13,13 +13,18 @@ public class AddExpenseHelper {
     public AddExpenseHelper(Context context) {
         this(new DatabaseHelper(context));
     }
-    public void updateData(String id, double amount, String reason){
-        dbHelper.updateExpense(id, amount, reason);
-
-    }
-    public void addData(double amount,String reason){
+    public void addData(double amount, String reason)
+    {
+        if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
+        if (reason == null || reason.trim().isEmpty()) throw new IllegalArgumentException("Reason is required");
         dbHelper.addExpense(amount, reason);
-
     }
 
+    public void updateData(String id, double amount, String reason)
+    {
+        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("ID is required");
+        if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
+        if (reason == null || reason.trim().isEmpty()) throw new IllegalArgumentException("Reason is required");
+        dbHelper.updateExpense(id, amount, reason);
+    }
 }
