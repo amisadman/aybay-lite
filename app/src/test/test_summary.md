@@ -79,8 +79,7 @@ This section explains how to generate the CSV test files using the `TestDataGene
 
 1. **Open** the project in **Android Studio**.
 
-2. **Navigate to** the class:  
-   [`TestDataGeneratorRunner.java`](./java/com/amisadman/aybaylite/TestCaseGenerator/TestDataGeneratorRunner.java)
+2. **Navigate to** the class: [`TestDataGeneratorRunner.java`](./java/com/amisadman/aybaylite/TestCaseGenerator/TestDataGeneratorRunner.java)
 
 3. **Run** the `generateTestCSVs()` method. You can also customize the number of Records.
 4. CSV Files Generated.
