@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./ExternalResources/aybay-animation.gif"/>
+  <img src="https://github.com/amisadman/aybay-lite/blob/main/ExternalResources/aybay-animation.gif"/>
 </p>
 
 <h1 align="center">AyBay Lite</h1>
