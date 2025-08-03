@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/amisadman/aybay-lite/blob/main/app/src/main/ic_launcher-playstore.png" width="100" alt="AyBay Lite Icon" />
+  <img src="./ExternalResources/aybay-animation.gif"/>
 </p>
 
 <h1 align="center">AyBay Lite</h1>
@@ -12,7 +12,7 @@ A powerful and lightweight Android application for tracking income, expenses, bu
 
 ## ✨ Features
 
-- 📊 Track income and expenses
+- 📊 Track income and expenses (Lite Version)
 - 🏦 Manage loans and debts (owe tracking)
 - 💰 Monitor savings and budgets
 - 🔍 Search and filter transactions by date or type
