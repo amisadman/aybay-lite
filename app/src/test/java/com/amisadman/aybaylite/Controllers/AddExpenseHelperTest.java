@@ -189,6 +189,27 @@ class AddExpenseHelperTest
         addExpenseHelper.addData(amount, reason);
         verify(mockDbHelper).addExpense(amount, reason);
     }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/min_to_nominal.csv", numLinesToSkip = 1)
+    void testUpdateData_WithCsv_MinTONominal(double amount, String reason, String rangeType) {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n",
+                amount, reason, rangeType);
+        String id = "1";
+
+        addExpenseHelper.updateData(id,amount, reason);
+        verify(mockDbHelper).updateExpense(id,amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/nominal_to_max.csv", numLinesToSkip = 1)
+    void testUpdateData_WithCsv_NominalToMax(double amount, String reason, String rangeType) {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n",
+                amount, reason, rangeType);
+        String id = "1";
+
+        addExpenseHelper.updateData(id,amount, reason);
+        verify(mockDbHelper).updateExpense(id,amount, reason);
+    }
+
 
 
 
