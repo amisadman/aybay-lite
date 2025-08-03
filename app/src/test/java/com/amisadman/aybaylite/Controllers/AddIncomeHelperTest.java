@@ -12,12 +12,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
@@ -45,9 +49,9 @@ public class AddIncomeHelperTest {
 
     @ParameterizedTest
     @CsvSource({
-            "1, 100.50, Salary bonus",
-            "2, 250.75, Freelance work",
-            "3, 99.99, Sold item"
+            "'1', 100.50, Salary bonus",
+            "'2', 250.75, Freelance work",
+            "'3', 99.99, Sold item"
     })
     void testUpdateData(String id, double amount, String reason) {
         // Act
@@ -134,4 +138,62 @@ public class AddIncomeHelperTest {
                 Arguments.of(420.69, "Miscellaneous")
         );
     }
+    //===============================================================================================
+
+    //Boundary value testing
+
+    @ParameterizedTest
+    @MethodSource("provideAmountTestCases")
+    void testAddData_BoundaryValues(double amount, boolean shouldSucceed) {
+        String reason = "Test income";
+
+        if (shouldSucceed) {
+            // Test valid cases
+            assertDoesNotThrow(() -> addIncomeHelper.addData(amount, reason));
+            verify(mockDbHelper).addIncome(amount, reason);
+        } else {
+            // Test invalid cases
+            IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                    () -> addIncomeHelper.addData(amount, reason));
+
+            assertTrue(ex.getMessage().contains("Amount is outside valid range"));
+            verify(mockDbHelper, never()).addIncome(anyDouble(), anyString());
+        }
+    }
+
+    private static Stream<Arguments> provideAmountTestCases() {
+        return Stream.of(
+                // Boundary Test Cases (amount, shouldSucceed)
+
+                // Lower Boundary
+                Arguments.of(0.99, false),   // min- (1 cent below minimum)
+                Arguments.of(1.00, true),    // exact minimum
+                Arguments.of(1.01, true),     // min+ (1 cent above minimum)
+
+                // Middle Range
+                Arguments.of(500_000_000.00, true),  // nominal value
+                Arguments.of(999_999_999.99, true),  // max- (1 cent below max)
+
+                // Upper Boundary
+                Arguments.of(1_000_000_000.00, true), // exact maximum
+                Arguments.of(1_000_000_000.01, false), // max+ (1 cent above max)
+
+                // Special Cases
+                Arguments.of(Double.MIN_VALUE, false), // smallest possible double
+                Arguments.of(Double.MAX_VALUE, false)  // largest possible double
+        );
+    }
+
+    //===============================================================================================
+    //Random generated data
+    @ParameterizedTest
+    @CsvFileSource(resources = "/combined_test_data.csv", numLinesToSkip = 1)
+    void testAddData_WithCsv(double amount, String reason, String rangeType) {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n",
+                amount, reason, rangeType);
+
+        addIncomeHelper.addData(amount, reason);
+        verify(mockDbHelper).addIncome(amount, reason);
+    }
+
 }

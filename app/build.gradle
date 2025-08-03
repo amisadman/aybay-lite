@@ -30,7 +30,7 @@ android {
     // ✅ Fix: Use testOptions instead of test {}
     testOptions {
         unitTests.all {
-            useJUnitPlatform()  // Enables JUnit 5 support
+            useJUnitPlatform()
         }
     }
     sourceSets {
