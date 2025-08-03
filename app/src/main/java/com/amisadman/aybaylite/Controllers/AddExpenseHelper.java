@@ -6,6 +6,8 @@ import com.amisadman.aybaylite.Repo.DatabaseHelper;
 
 public class AddExpenseHelper {
     private final DatabaseHelper dbHelper;
+    private  final int minimum = 1;
+    private final int maximum = (int) 1e9;
     public AddExpenseHelper(DatabaseHelper dbHelper) {
         this.dbHelper = dbHelper;
     }
@@ -14,11 +16,16 @@ public class AddExpenseHelper {
         this(new DatabaseHelper(context));
     }
     public void updateData(String id, double amount, String reason){
-        dbHelper.updateExpense(id, amount, reason);
-
+        if(amount >= minimum && amount <= maximum)dbHelper.updateExpense(id, amount, reason);
+        else{
+            throw new IllegalArgumentException("Amount is outside valid range");
+        }
     }
     public void addData(double amount,String reason){
-        dbHelper.addExpense(amount, reason);
+        if(amount >= minimum && amount <= maximum)dbHelper.addExpense(amount, reason);
+        else{
+            throw new IllegalArgumentException("Amount is outside valid range");
+        }
 
     }
 
