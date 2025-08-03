@@ -195,5 +195,25 @@ public class AddIncomeHelperTest {
         addIncomeHelper.addData(amount, reason);
         verify(mockDbHelper).addIncome(amount, reason);
     }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/min_to_nominal.csv", numLinesToSkip = 1)
+    void testUpdateData_WithCsv_MinTONominal(double amount, String reason, String rangeType) {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n",
+                amount, reason, rangeType);
+        String id = "1";
+
+        addIncomeHelper.updateData(id,amount, reason);
+        verify(mockDbHelper).updateIncome(id,amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/nominal_to_max.csv", numLinesToSkip = 1)
+    void testUpdateData_WithCsv_NominalToMax(double amount, String reason, String rangeType) {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n",
+                amount, reason, rangeType);
+        String id = "1";
+
+        addIncomeHelper.updateData(id,amount, reason);
+        verify(mockDbHelper).updateIncome(id,amount, reason);
+    }
 
 }
