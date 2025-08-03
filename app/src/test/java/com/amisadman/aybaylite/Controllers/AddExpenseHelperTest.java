@@ -126,7 +126,7 @@ class AddExpenseHelperTest
                 Arguments.of("exp_2", 99.99, "Bus fare"),
 
                 // Edge cases
-                Arguments.of("id-dash-case", 0.01, "Tiny purchase"),
+                Arguments.of("id-dash-case", 1.00, "Tiny purchase"),
                 Arguments.of("EXP_ID_999", 999999.99, "Medical emergency expense"),
                 Arguments.of("weird$id#chars", 500.00, "ID with special chars"),
                 Arguments.of("no_reason", 45.00, ""),
@@ -179,6 +179,48 @@ class AddExpenseHelperTest
         );
     }
 
+    private static Stream<Arguments> provideUpdateAmountTestCases()
+    {
+        return Stream.of(
+                // Lower Boundary
+                Arguments.of(0.99, false),
+                Arguments.of(1.00, true),
+                Arguments.of(1.01, true),
+
+                // Mid Range
+                Arguments.of(500_000_000.00, true),
+                Arguments.of(999_999_999.99, true),
+
+                // Upper Boundary
+                Arguments.of(1_000_000_000.00, true),
+                Arguments.of(1_000_000_000.01, false),
+
+                // Special Cases
+                Arguments.of(Double.MIN_VALUE, false),
+                Arguments.of(Double.MAX_VALUE, false)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideUpdateAmountTestCases")
+    void testUpdateData_BoundaryValues(double amount, boolean shouldSucceed)
+    {
+        String id = "test_id";
+        String reason = "Updated reason";
+
+        if(shouldSucceed)
+        {
+            assertDoesNotThrow(() -> addExpenseHelper.updateData(id, amount, reason));
+            verify(mockDbHelper).updateExpense(id, amount, reason);
+        }
+        else
+        {
+            IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> addExpenseHelper.updateData(id, amount, reason));
+            assertTrue(ex.getMessage().contains("Amount is outside valid range"));
+            verify(mockDbHelper, never()).updateExpense(anyString(), anyDouble(), anyString());
+        }
+    }
+
     //===============================================================================================
     @ParameterizedTest
     @CsvFileSource(resources = "/combined_test_data.csv", numLinesToSkip = 1)
@@ -188,6 +230,34 @@ class AddExpenseHelperTest
 
         addExpenseHelper.addData(amount, reason);
         verify(mockDbHelper).addExpense(amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/min_to_nominal.csv", numLinesToSkip = 1)
+    void testAddData_WithCsv_MinToNominal(double amount, String reason, String rangeType)
+    {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n", amount, reason, rangeType);
+
+        addExpenseHelper.addData(amount, reason);
+        verify(mockDbHelper).addExpense(amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/nominal_to_max.csv", numLinesToSkip = 1)
+    void testAddData_WithCsv_NominalToMax(double amount, String reason, String rangeType)
+    {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n", amount, reason, rangeType);
+
+        addExpenseHelper.addData(amount, reason);
+        verify(mockDbHelper).addExpense(amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/combined_test_data.csv", numLinesToSkip = 1)
+    void testUpdateData_WithCsv(double amount, String reason, String rangeType)
+    {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n", amount, reason, rangeType);
+        String id = "1";
+
+        addExpenseHelper.updateData(id,amount, reason);
+        verify(mockDbHelper).updateExpense(id,amount, reason);
     }
     @ParameterizedTest
     @CsvFileSource(resources = "/min_to_nominal.csv", numLinesToSkip = 1)
@@ -209,9 +279,5 @@ class AddExpenseHelperTest
         addExpenseHelper.updateData(id,amount, reason);
         verify(mockDbHelper).updateExpense(id,amount, reason);
     }
-
-
-
-
 
 }

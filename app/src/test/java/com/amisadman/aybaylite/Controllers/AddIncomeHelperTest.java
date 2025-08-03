@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
@@ -108,7 +109,7 @@ public class AddIncomeHelperTest {
                 Arguments.of("inc_2", 250.75, "Freelance work"),
 
                 // Edge cases
-                Arguments.of("id-with-dash", 0.01, "Minimum amount"),
+                Arguments.of("id-with-dash", 1.00, "Minimum amount"),
                 Arguments.of("ID_WITH_UNDERSCORE", 999999.99, "Maximum reasonable amount"),
                 Arguments.of("special!@#", 500.00, "Special chars in ID"),
                 Arguments.of("empty_reason", 75.25, ""),
@@ -123,12 +124,12 @@ public class AddIncomeHelperTest {
         verify(mockDbHelper).addIncome(amount, reason);
     }
 
-    private static Stream<Arguments> provideAddDataTestCases() {
+    private static Stream<Arguments> provideAddDataTestCases()
+    {
         return Stream.of(
 
                 Arguments.of(2000.00, "Monthly salary"),
                 Arguments.of(150.50, "Consulting fee"),
-
 
                 Arguments.of(0.01, "Rounding adjustment"),
                 Arguments.of(1_000_000.00, "Annual bonus"),
@@ -184,6 +185,48 @@ public class AddIncomeHelperTest {
         );
     }
 
+    private static Stream<Arguments> provideIncomeUpdateTestCases()
+    {
+        return Stream.of(
+                // Lower Boundary
+                Arguments.of(0.99, false),
+                Arguments.of(1.00, true),
+                Arguments.of(1.01, true),
+
+                // Middle Range
+                Arguments.of(500_000_000.00, true),
+                Arguments.of(999_999_999.99, true),
+
+                // Upper Boundary
+                Arguments.of(1_000_000_000.00, true),
+                Arguments.of(1_000_000_000.01, false),
+
+                // Special Cases
+                Arguments.of(Double.MIN_VALUE, false),
+                Arguments.of(Double.MAX_VALUE, false)
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideIncomeUpdateTestCases")
+    void testUpdateData_BoundaryValues(double amount, boolean shouldSucceed)
+    {
+        String id = "income_id";
+        String reason = "Updated income reason";
+
+        if (shouldSucceed)
+        {
+            assertDoesNotThrow(() -> addIncomeHelper.updateData(id, amount, reason));
+            verify(mockDbHelper).updateIncome(id, amount, reason);
+        }
+        else
+        {
+            IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> addIncomeHelper.updateData(id, amount, reason));
+
+            assertTrue(ex.getMessage().contains("Amount is outside valid range"));
+            verify(mockDbHelper, never()).updateIncome(anyString(), anyDouble(), anyString());
+        }
+    }
+
     //===============================================================================================
     //Random generated data
     @ParameterizedTest
@@ -194,6 +237,34 @@ public class AddIncomeHelperTest {
 
         addIncomeHelper.addData(amount, reason);
         verify(mockDbHelper).addIncome(amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/min_to_nominal.csv", numLinesToSkip = 1)
+    void testAddData_WithCsv_MinToNominal(double amount, String reason, String rangeType)
+    {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n", amount, reason, rangeType);
+
+        addIncomeHelper.addData(amount, reason);
+        verify(mockDbHelper).addIncome(amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/nominal_to_max.csv", numLinesToSkip = 1)
+    void testAddData_WithCsv_MaxToNominal(double amount, String reason, String rangeType)
+    {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n", amount, reason, rangeType);
+
+        addIncomeHelper.addData(amount, reason);
+        verify(mockDbHelper).addIncome(amount, reason);
+    }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/combined_test_data.csv", numLinesToSkip = 1)
+    void testUpdateData_WithCsv(double amount, String reason, String rangeType)
+    {
+        System.out.printf("Running test for amount: %.2f, reason: %s, rangeType: %s%n", amount, reason, rangeType);
+        String id = "1";
+
+        addIncomeHelper.updateData(id,amount, reason);
+        verify(mockDbHelper).updateIncome(id,amount, reason);
     }
     @ParameterizedTest
     @CsvFileSource(resources = "/min_to_nominal.csv", numLinesToSkip = 1)
