@@ -28,8 +28,8 @@ A powerful and lightweight Android application for tracking income, expenses, bu
 
 You can install AyBay Lite from:
 
-[![GitHub](https://img.shields.io/badge/GitHub-Install-informational?logo=github)](https://github.com/yourusername/aybay-lite)
-[![Google Drive](https://img.shields.io/badge/Google%20Drive-Download-green?logo=google-drive)](https://drive.google.com/yourlink)
+[![GitHub](https://img.shields.io/badge/GitHub-Install-informational?logo=github)](https://github.com/amisadman/aybay-lite)
+[![Google Drive](https://img.shields.io/badge/Google%20Drive-Download-green?logo=google-drive)](https://drive.google.com/file/d/1KUU8vM8rXXOHGKe-sdrNVdNx81QNTk0b/view?usp=sharing)
 
 ---
 
